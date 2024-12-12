@@ -59,5 +59,6 @@ jobs:
       with:
         name: windows-app
         path: |
-          build/libs/*.jar
-          build/distributions/*.zip
+          composeApp/build/compose/binaries/main-release/**
+          composeApp/build/msi/*.msi
+          composeApp/build/distributions/*.zip
