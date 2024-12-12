@@ -44,13 +44,13 @@ jobs:
       shell: bash
     
     # 先列出所有可用的 Gradle 任务
-    - name: List available Gradle tasks
-      run: ./gradlew tasks --all
-      shell: bash
+#    - name: List available Gradle tasks
+#      run: ./gradlew tasks --all
+#      shell: bash
     
     # 构建 Windows 目标平台
     - name: Build Windows Application
-      run: ./gradlew build
+      run: ./gradlew packageReleaseMsi
       shell: bash
     
     # 上传构建产物
