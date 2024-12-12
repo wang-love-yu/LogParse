@@ -1,0 +1,44 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # 也可以手动触发
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    # 如果是 Node.js 项目，设置 Node.js 环境
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    
+    # 安装依赖
+    - name: Install dependencies
+      run: |
+        npm install
+    
+    # 构建应用
+    - name: Build
+      run: |
+        npm run build
+    
+    # 打包成可执行文件（示例使用 electron-builder）
+    - name: Package
+      run: |
+        npm run package
+    
+    # 上传构建产物
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-app
+        path: dist/*.exe  # 根据实际输出路径调整 
