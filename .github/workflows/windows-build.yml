@@ -5,8 +5,20 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  # 也可以手动触发
+  # 在创建新的 tag 时触发
+  release:
+    types: [created]
+  # 定时触发（例如每天凌晨）
+  schedule:
+    - cron: '0 0 * * *'
+  # 手动触发
   workflow_dispatch:
+    # 可以添加手动触发时的输入参数
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        default: '1.0.0'
 
 jobs:
   build:
@@ -15,30 +27,37 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    # 如果是 Node.js 项目，设置 Node.js 环境
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    # 设置 JDK 环境
+    - name: Set up JDK
+      uses: actions/setup-java@v3
       with:
-        node-version: '18.x'
+        java-version: '17'  # 或者使用您项目需要的 Java 版本
+        distribution: 'temurin'  # 推荐使用 Eclipse Temurin
     
-    # 安装依赖
-    - name: Install dependencies
-      run: |
-        npm install
+    # 设置 Gradle 缓存
+    - name: Setup Gradle Cache
+      uses: gradle/gradle-build-action@v2
     
-    # 构建应用
-    - name: Build
-      run: |
-        npm run build
+    # 授予 Gradle 执行权限
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      shell: bash
     
-    # 打包成可执行文件（示例使用 electron-builder）
-    - name: Package
-      run: |
-        npm run package
+    # 构建 Windows 目标平台
+    - name: Build Windows Application
+      run: ./gradlew mingwX64Binaries
+      shell: bash
+    
+    # 打包应用（如果需要的话）
+    - name: Package Application
+      run: ./gradlew packageMsi  # 或其他打包任务，取决于您的项目配置
+      shell: bash
     
     # 上传构建产物
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: windows-app
-        path: dist/*.exe  # 根据实际输出路径调整 
+        path: |
+          build/bin/mingwX64/releaseExecutable/*.exe
+          build/dist/*.msi  # 如果有生成 MSI 安装包
