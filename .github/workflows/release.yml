@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -27,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-build
-          path: build/compose/binaries/main-release/msi/*.msi
+          path: composeApp/build/compose/binaries/main-release/msi/*.msi
           
   build-macos:
     runs-on: macos-latest
@@ -50,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: macos-build
-          path: build/compose/binaries/main-release/dmg/*.dmg
+          path: composeApp/build/compose/binaries/main-release/dmg/*.dmg
 
   create-release:
     needs: [build-windows, build-macos]
@@ -58,6 +61,11 @@ jobs:
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
+        
+      - name: List Files
+        run: |
+          pwd
+          ls -R
         
       - name: Create Release
         uses: softprops/action-gh-release@v1
