@@ -1,64 +1,63 @@
-name: Windows Build
+# name: Windows Build
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+#   # 在创建新的 tag 时触发
+#   release:
+#     types: [created]
+#   # 定时触发（例如每天凌晨）
+#   schedule:
+#     - cron: '0 0 * * *'
+#   # 手动触发
+#   workflow_dispatch:
+#     # 可以添加手动触发时的输入参数
+#     inputs:
+#       version:
+#         description: 'Version number'
+#         required: true
+#         default: '1.0.0'
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  # 在创建新的 tag 时触发
-  release:
-    types: [created]
-  # 定时触发（例如每天凌晨）
-  schedule:
-    - cron: '0 0 * * *'
-  # 手动触发
-  workflow_dispatch:
-    # 可以添加手动触发时的输入参数
-    inputs:
-      version:
-        description: 'Version number'
-        required: true
-        default: '1.0.0'
-
-jobs:
-  build:
-    runs-on: windows-latest
+# jobs:
+#   build:
+#     runs-on: windows-latest
     
-    steps:
-    - uses: actions/checkout@v3
+#     steps:
+#     - uses: actions/checkout@v3
     
-    # 设置 JDK 环境
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'  # 或者使用您项目需要的 Java 版本
-        distribution: 'temurin'  # 推荐使用 Eclipse Temurin
+#     # 设置 JDK 环境
+#     - name: Set up JDK
+#       uses: actions/setup-java@v3
+#       with:
+#         java-version: '17'  # 或者使用您项目需要的 Java 版本
+#         distribution: 'temurin'  # 推荐使用 Eclipse Temurin
     
-    # 设置 Gradle 缓存
-    - name: Setup Gradle Cache
-      uses: gradle/gradle-build-action@v2
+#     # 设置 Gradle 缓存
+#     - name: Setup Gradle Cache
+#       uses: gradle/gradle-build-action@v2
     
-    # 授予 Gradle 执行权限
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      shell: bash
+#     # 授予 Gradle 执行权限
+#     - name: Grant execute permission for gradlew
+#       run: chmod +x gradlew
+#       shell: bash
     
-    # 先列出所有可用的 Gradle 任务
-#    - name: List available Gradle tasks
-#      run: ./gradlew tasks --all
-#      shell: bash
+#     # 先列出所有可用的 Gradle 任务
+# #    - name: List available Gradle tasks
+# #      run: ./gradlew tasks --all
+# #      shell: bash
     
-    # 构建 Windows 目标平台
-    - name: Build Windows Application
-      run: ./gradlew packageReleaseMsi
-      shell: bash
+#     # 构建 Windows 目标平台
+#     - name: Build Windows Application
+#       run: ./gradlew packageReleaseMsi
+#       shell: bash
     
-    # 上传构建产物
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: windows-app
-        path: |
-          composeApp/build/compose/binaries/main-release/**
-          composeApp/build/msi/*.msi
-          composeApp/build/distributions/*.zip
+#     # 上传构建产物
+#     - name: Upload artifacts
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: windows-app
+#         path: |
+#           composeApp/build/compose/binaries/main-release/**
+#           composeApp/build/msi/*.msi
+#           composeApp/build/distributions/*.zip
