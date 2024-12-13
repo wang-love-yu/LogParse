@@ -24,7 +24,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       
       - name: Build Windows Application
-        run: ./gradlew packageReleaseDistributionForCurrentOS
+        run: ./gradlew packageReleaseMsi
         
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v3
