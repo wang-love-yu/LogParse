@@ -7,7 +7,7 @@ import java.io.FileInputStream
 import java.io.ByteArrayOutputStream
 
 actual class FileSelector {
-    actual fun openFileSelector(onFileSelected: (ByteArray, String) -> Unit) {
+    actual fun openFileSelector(useType:Int,onFileSelected: (ByteArray, String) -> Unit) {
         val fileDialog = FileDialog(Frame()).apply {
             mode = FileDialog.LOAD
             title = "Select Logan Log File"
