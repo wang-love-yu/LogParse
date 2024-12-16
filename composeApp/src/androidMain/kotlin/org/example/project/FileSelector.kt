@@ -17,7 +17,7 @@ actual class FileSelector {
         this.activity = activity
     }
 
-    actual fun openFileSelector(useType:Int,onFileSelected: (ByteArray, String) -> Unit) {
+    actual fun openFileSelector(onFileSelected: (ByteArray, String) -> Unit) {
         if (!::activity.isInitialized) {
             throw IllegalStateException("FileSelector must be initialized with an activity first")
         }
