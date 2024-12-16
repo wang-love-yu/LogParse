@@ -17,7 +17,7 @@ kotlin {
         }
     }
     
-    listOf(
+/*    listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -26,7 +26,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
         }
-    }
+    }*/
     
     jvm("desktop")
     
